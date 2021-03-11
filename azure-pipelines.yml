@@ -11,35 +11,28 @@ pool:
     - npm
   vmImage: ubuntu-18.04
 steps: 
-  - 
-    displayName: "Use .NET Core SDK 3.1.407"
+  - displayName: "Use .NET Core SDK 3.1.407"
     inputs: 
       packageType: sdk
       version: "3.1.407"
     task: UseDotNet@2
-  - 
-    displayName: "Run npm install"
+  - displayName: "Run npm install"
     inputs: 
       verbose: false
     task: Npm@1
-  - 
-    displayName: "Compile Sass assets"
+  - displayName: "Compile Sass assets"
     script: "./node_modules/.bin/node-sass Tailspin.SpaceGame.Web/wwwroot --output Tailspin.SpaceGame.Web/wwwroot"
-  - 
-    displayName: "Run gulp tasks"
+  - displayName: "Run gulp tasks"
     task: gulp@1
-  - 
-    displayName: "Write build info"
+  - displayName: "Write build info"
     script: "echo \"$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)\" > buildinfo.txt"
     workingDirectory: Tailspin.SpaceGame.Web/wwwroot
-  - 
-    displayName: "Restore project dependencies"
+  - displayName: "Restore project dependencies"
     inputs: 
       command: restore
       projects: "**/*.csproj"
     task: DotNetCoreCLI@2
-  - 
-    displayName: "Build the project - Release"
+  - displayName: "Build the project - Release"
     inputs: 
       arguments: "--no-restore --configuration Release"
       command: build
